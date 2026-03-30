@@ -21,7 +21,7 @@ abstract class BlockPlayerGUI
     ) {
     }
 
-    public function getBlockForm(PlayerFormContainer $parent_form): PlayerFormContainer
+    public function getBlockForm(?PlayerFormContainer $parent_form): PlayerFormContainer
     {
         $h = new FormSectionHeaderGUIFixed();
 

@@ -12,7 +12,7 @@ use ilObjSelfEvaluation;
 
 class QuestionBlockPlayerGUI extends BlockPlayerGUI
 {
-    public function getBlockForm(PlayerFormContainer $parent_form): PlayerFormContainer
+    public function getBlockForm(?PlayerFormContainer $parent_form): PlayerFormContainer
     {
         $form = parent::getBlockForm($parent_form);
 

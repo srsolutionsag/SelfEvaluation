@@ -12,6 +12,7 @@ use ilub\plugin\SelfEvaluation\Question\Matrix\Question;
 use ilub\plugin\SelfEvaluation\Block\Matrix\QuestionBlock;
 use ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * Class ilObjSelfEvaluationGUI
@@ -44,7 +45,7 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
      */
     protected ?ilPlugin $plugin = null;
     protected ilDBInterface $db;
-    public WrapperFactory $http;
+    public GlobalHttpState $http;
     public Factory $refinery;
 
     public function __construct(

@@ -8,7 +8,7 @@ class csvExport
 {
     protected csvExportTable $table;
 
-    public function __construct(csvExportTable $table = null)
+    public function __construct(?csvExportTable $table = null)
     {
         $this->table = $table ?: new csvExportTable();
     }

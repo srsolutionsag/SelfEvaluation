@@ -11,7 +11,7 @@ use ilub\plugin\SelfEvaluation\Block\BlockType;
 
 class MetaBlockPlayerGUI extends BlockPlayerGUI
 {
-    public function getBlockForm(PlayerFormContainer $parent_form = null): PlayerFormContainer
+    public function getBlockForm(?PlayerFormContainer $parent_form = null): PlayerFormContainer
     {
         $form = parent::getBlockForm($parent_form);
 
