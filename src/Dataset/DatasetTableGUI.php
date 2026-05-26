@@ -63,8 +63,7 @@ class DatasetTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ID", $obj->getId());
         $this->tpl->setVariable(
             'COMPLETE',
-            $obj->isComplete() ? ilUtil::getImagePath('standard/icon_ok.svg') : $this->plugin->getDirectory(
-            ) . '/templates/images/empty.png'
+            ilUtil::getImagePath($obj->isComplete() ? 'standard/icon_ok.svg' : 'standard/icon_not_ok.svg')
         );
         $this->tpl->setVariable('DATE', date('d.m.Y - H:i:s', $obj->getCreationDate()));
         $this->tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTargetByClass(DatasetGUI::class, 'show'));
