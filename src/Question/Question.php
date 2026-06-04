@@ -20,7 +20,7 @@ abstract class Question implements hasDBFields
 
     public function __construct(protected ilDBInterface $db, protected int $id = 0)
     {
-        if ($this->id != 0) {
+        if ($this->id !== 0) {
             $this->read();
         }
     }

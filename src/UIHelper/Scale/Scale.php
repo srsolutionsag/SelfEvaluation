@@ -23,7 +23,7 @@ class Scale implements hasDBFields
 
     public function __construct(protected ilDBInterface $db, protected int $id = 0)
     {
-        if ($this->id != 0) {
+        if ($this->id !== 0) {
             $this->read();
         }
         $this->units = ScaleUnit::_getAllInstancesByParentId($this->db, $this->getId());
@@ -97,10 +97,10 @@ class Scale implements hasDBFields
         $return = [];
         $min_max = $this->getMinMaxValue();
         $max = $min_max['max'];
-        if ($max !=0){
-        foreach ($this->units as $u) {
-            $return[(int) ($u->getValue() * 100 / $max)] = $u->getTitle() . ' (' . $u->getValue() . ')';
-        }
+        if ($max != 0) {
+            foreach ($this->units as $u) {
+                $return[(int) ($u->getValue() * 100 / $max)] = $u->getTitle() . ' (' . $u->getValue() . ')';
+            }
         } else {
             foreach ($this->units as $u) {
                 $return[$u->getValue()] = $u->getTitle() . ' (' . $u->getValue() . ')';
@@ -156,7 +156,7 @@ class Scale implements hasDBFields
 
     public function create(): void
     {
-        if ($this->getId() != 0) {
+        if ($this->getId() !== 0) {
             $this->update();
 
             return;
@@ -172,7 +172,7 @@ class Scale implements hasDBFields
 
     public function update(): void
     {
-        if ($this->getId() == 0) {
+        if ($this->getId() === 0) {
             $this->create();
         }
         $this->db->update(self::TABLE_NAME, $this->getArrayForDb(), $this->getIdForDb());

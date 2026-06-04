@@ -26,6 +26,7 @@ class QuestionGUI extends BaseQuestionGUI
         );
     }
 
+    #[\Override]
     public function initQuestionForm(string $mode = 'create'): void
     {
         parent::initQuestionForm($mode);

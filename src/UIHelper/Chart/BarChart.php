@@ -30,6 +30,7 @@ class BarChart extends ilChartGrid
         $this->setYAxisToInteger(true);
     }
 
+    #[\Override]
     public function getDataInstance($a_type = null): ilChartDataBars
     {
         $data = new ilChartDataBars();
@@ -37,6 +38,7 @@ class BarChart extends ilChartGrid
         return $data;
     }
 
+    #[\Override]
     public function parseGlobalOptions(stdClass $a_options): void
     {
         parent::parseGlobalOptions($a_options);

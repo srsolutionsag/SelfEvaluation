@@ -60,6 +60,7 @@ class MetaQuestionTableGUI extends ilTable2GUI
         $this->addColumn($this->plugin->txt('actions'));
     }
 
+    #[\Override]
     protected function fillRow(array $a_set): void
     {
         $this->ctrl->setParameter($this->getParentObject(), 'question_id', $a_set['id']);

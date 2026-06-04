@@ -54,6 +54,7 @@ class DatasetTableGUI extends ilTable2GUI
         }
     }
 
+    #[\Override]
     public function fillRow(array $a_set): void
     {
         $obj = new Dataset($this->db, (int) $a_set['id']);

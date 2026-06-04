@@ -24,11 +24,13 @@ class LeftRightChart extends ilChartGrid
         $this->setYAxisToInteger(true);
     }
 
+    #[\Override]
     public function getDataInstance($a_type = null): \ilChartData
     {
         return new ilChartDataLines();
     }
 
+    #[\Override]
     public function parseGlobalOptions(stdClass $a_options): void
     {
         parent::parseGlobalOptions($a_options);

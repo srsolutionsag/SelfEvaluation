@@ -45,6 +45,7 @@ class QuestionBlockTableRow extends BlockTableRow
         $this->setAbbreviation($block->getAbbreviation());
     }
 
+    #[\Override]
     protected function saveCtrlParameters()
     {
         $this->ctrl->setParameterByClass('QuestionBlockGUI', 'block_id', $this->getBlockId());

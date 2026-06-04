@@ -30,7 +30,7 @@ class csvExport
              * $utf8_row[] = $this->convertExcelUtf8($entry);
              * }
              **/
-            fputcsv($output, $row, $delimiter, $enclosure);
+            fputcsv($output, $row, $delimiter, $enclosure, escape: '\\');
         }
     }
 

@@ -28,6 +28,7 @@ class MetaBlockTableRow extends BlockTableRow
         $this->setStatusImg($img_path);
     }
 
+    #[\Override]
     protected function saveCtrlParameters()
     {
         $this->ctrl->setParameterByClass('MetaBlockGUI', 'block_id', $this->getBlockId());

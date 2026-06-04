@@ -30,6 +30,7 @@ class QuestionBlockGUI extends BlockGUI
         $this->object->setParentId($this->parent->getObjId());
     }
 
+    #[\Override]
     public function initForm(string $mode = 'create'): void
     {
         parent::initForm($mode);
@@ -40,12 +41,14 @@ class QuestionBlockGUI extends BlockGUI
         $this->form->addItem($te);
     }
 
+    #[\Override]
     protected function setObjectValuesByPost()
     {
         parent::setObjectValuesByPost();
         $this->object->setAbbreviation($this->form->getInput('abbreviation'));
     }
 
+    #[\Override]
     protected function getObjectValuesAsArray(): array
     {
         $values = ['abbreviation' => $this->object->getAbbreviation()];

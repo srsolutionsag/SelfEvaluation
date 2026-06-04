@@ -116,6 +116,7 @@ class MatrixFieldInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->values;
     }
 
+    #[\Override]
     public function checkInput(): bool
     {
         if ($this->getRequired()) {
@@ -148,6 +149,7 @@ class MatrixFieldInputGUI extends ilSubEnabledFormPropertyGUI
         return true;
     }
 
+    #[\Override]
     public function getAlert(): string
     {
         $alert_text = parent::getAlert();

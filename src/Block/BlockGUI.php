@@ -146,10 +146,7 @@ abstract class BlockGUI
 
     protected function getObjectValuesAsArray(): array
     {
-        $values['title'] = $this->object->getTitle();
-        $values['description'] = $this->object->getDescription();
-
-        return $values;
+        return ['title' => $this->object->getTitle(), 'description' => $this->object->getDescription()];
     }
 
     /**

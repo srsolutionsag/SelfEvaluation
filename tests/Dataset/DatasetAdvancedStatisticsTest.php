@@ -7,11 +7,11 @@ include_once "DatasetHelperTrait.php";
 use PHPUnit\Framework\TestCase;
 use ilub\plugin\SelfEvaluation\Dataset\Dataset;
 
-class DatasetAdvancedStatisticsTest extends TestCase
+final class DatasetAdvancedStatisticsTest extends TestCase
 {
     use DatasetHelperTrait;
 
-    protected Dataset $dataset;
+    private Dataset $dataset;
     protected ilDBInterface $db;
 
     protected function setUp(): void
@@ -23,24 +23,21 @@ class DatasetAdvancedStatisticsTest extends TestCase
 
     public function testGetOverallPercentage(): void
     {
-        self::assertEquals($this->getOverallPercentage(), $this->dataset->getOverallPercentage());
+        $this->assertEquals($this->getOverallPercentage(), $this->dataset->getOverallPercentage());
     }
 
     public function testGetOverallPercentageVarianz(): void
     {
-        self::assertEquals($this->getOverallPercentageVarianz(), $this->dataset->getOverallPercentageVarianz());
+        $this->assertEquals($this->getOverallPercentageVarianz(), $this->dataset->getOverallPercentageVarianz());
     }
 
     public function testGetOverallPercentageStandardabweichung(): void
     {
-        self::assertEquals(
-            sqrt($this->getOverallPercentageVarianz()),
-            $this->dataset->getOverallPercentageStandardabweichung()
-        );
+        $this->assertSame(sqrt($this->getOverallPercentageVarianz()), $this->dataset->getOverallPercentageStandardabweichung());
     }
 
     public function testGetPercentageStandardAbweichungPerBlock(): void
     {
-        self::assertEquals($this->getSdPerBlock(), $this->dataset->getPercentageStandardabweichungPerBlock());
+        $this->assertEquals($this->getSdPerBlock(), $this->dataset->getPercentageStandardabweichungPerBlock());
     }
 }

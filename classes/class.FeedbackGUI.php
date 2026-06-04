@@ -432,13 +432,13 @@ class FeedbackGUI
             $this->feedback->isParentTypeOverall()
         );
 
-        if (count($feedbacks) == 0) {
+        if (count($feedbacks) === 0) {
             $this->parseOverviewBlock('blank', 100, 0);
             return $this->overview;
         }
         $fb = null;
         foreach ($feedbacks as $fb) {
-            if ($min !== false && ($min <= $fb->getStartValue() && $min != 100 && $fb->getStartValue() - $min != 0)) {
+            if ($min <= $fb->getStartValue() && $min !== 100 && $fb->getStartValue() - $min != 0) {
                 $this->parseOverviewBlock('blank', $fb->getStartValue() - $min, $min);
             }
             $this->parseOverviewBlock('fb', $fb->getEndValue() - $fb->getStartValue(), $fb->getId(), $fb->getTitle());
@@ -450,7 +450,7 @@ class FeedbackGUI
                 $this->feedback->isParentTypeOverall()
             );
         }
-        if ($min != 100 && is_object($fb)) {
+        if ($min !== 100 && is_object($fb)) {
             $this->parseOverviewBlock('blank', 100 - $min, $min);
         }
 
@@ -461,7 +461,7 @@ class FeedbackGUI
     {
         for ($x = 1; $x <= 100; $x += 1) {
             $this->overview->setCurrentBlock('line');
-            if ($x % 5 == 0) {
+            if ($x % 5 === 0) {
                 $this->overview->setVariable('INT', $x . '&nbsp;');
                 $this->overview->setVariable('LINE_CSS', '_double');
             } else {

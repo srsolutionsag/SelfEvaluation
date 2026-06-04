@@ -82,6 +82,7 @@ class MultipleFieldInputGUI extends ilSubEnabledFormPropertyGUI
         }
     }
 
+    #[\Override]
     public function checkInput(): bool
     {
         $lng = $this->lng;

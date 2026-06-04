@@ -68,6 +68,7 @@ class SliderInputGUI extends ilSubEnabledFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
+    #[\Override]
     public function checkInput(): bool
     {
         global $lng;

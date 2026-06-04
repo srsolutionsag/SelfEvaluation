@@ -11,7 +11,6 @@ use ilub\plugin\SelfEvaluation\Block\Meta\MetaBlock;
 use ilub\plugin\SelfEvaluation\Question\Matrix\Question;
 use ilub\plugin\SelfEvaluation\Block\Matrix\QuestionBlock;
 use ilub\plugin\SelfEvaluation\Question\Meta\MetaQuestion;
-use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\HTTP\GlobalHttpState;
 
 /**
@@ -65,14 +64,15 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
     {
         if ($this->http->query()->has('uid')) {
             $id = new Identity($this->db, $this->http->query()->retrieve('uid', $this->refinery->kindlyTo()->int()));
-            if ($id->getType() == Identity::TYPE_EXTERNAL && $this->object->isIdentitySelection()) {
+            if ($id->getType() === Identity::TYPE_EXTERNAL && $this->object->isIdentitySelection()) {
                 global $ilToolbar;
                 $ilToolbar->addText('<b>' . $this->txt('your_uid') . ' ' . $id->getIdentifier() . '</b>');
             }
         }
     }
 
-    private function initAssets(): void {
+    private function initAssets(): void
+    {
         $this->tpl->addCss($this->getPlugin()->getStyleSheetLocation('css/content.css'));
         $this->tpl->addCss($this->getPlugin()->getStyleSheetLocation('css/print.css'), 'print');
 
@@ -100,6 +100,7 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
     /**
      * @throws ilCtrlException
      */
+    #[\Override]
     public function executeCommand(): void
     {
         if (!$this->getCreationMode()) {
@@ -345,6 +346,7 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
         return 'showContent';
     }
 
+    #[\Override]
     public function setTabs(): void
     {
         global $DIC;

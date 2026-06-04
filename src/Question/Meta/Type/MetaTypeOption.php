@@ -13,6 +13,7 @@ class MetaTypeOption extends ilRadioOption
         parent::__construct('', '', $info);
     }
 
+    #[\Override]
     public function setDisabled(bool $a_disabled): void
     {
         $this->disabled = $a_disabled;

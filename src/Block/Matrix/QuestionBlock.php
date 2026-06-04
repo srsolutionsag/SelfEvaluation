@@ -86,6 +86,7 @@ class QuestionBlock extends Block implements QuestionBlockInterface
         return $xml;
     }
 
+    #[\Override]
     protected function getNonDbFields(): array
     {
         return array_merge(parent::getNonDbFields(), ['scale']);

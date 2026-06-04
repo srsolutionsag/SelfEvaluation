@@ -42,7 +42,7 @@ class Dataset implements hasDBFields
 
     public function __construct(protected ilDBInterface $db, public int $id = 0)
     {
-        if ($this->id != 0) {
+        if ($this->id !== 0) {
             $this->read();
         }
 
@@ -83,7 +83,7 @@ class Dataset implements hasDBFields
 
     public function create(): void
     {
-        if ($this->getId() != 0) {
+        if ($this->getId() !== 0) {
             $this->update();
 
             return;
@@ -108,7 +108,7 @@ class Dataset implements hasDBFields
 
     public function update(): void
     {
-        if ($this->getId() == 0) {
+        if ($this->getId() === 0) {
             $this->create();
 
             return;
@@ -126,7 +126,7 @@ class Dataset implements hasDBFields
      */
     protected function updateValuesByArray(array $array)
     {
-        if ($this->getId() == 0) {
+        if ($this->getId() === 0) {
             $this->create();
         }
 
@@ -308,7 +308,7 @@ class Dataset implements hasDBFields
      */
     public function getQuestionBlocks(): array
     {
-        if (count($this->question_blocks) == 0) {
+        if (count($this->question_blocks) === 0) {
             foreach (
                 QuestionBlock::_getAllInstancesByIdentifierId(
                     $this->db,

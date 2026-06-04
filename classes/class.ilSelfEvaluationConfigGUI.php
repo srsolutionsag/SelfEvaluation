@@ -56,10 +56,7 @@ class ilSelfEvaluationConfigGUI extends ilPluginConfigGUI
         return $this->object;
     }
 
-    /**
-     * @param $cmd
-     */
-    public function performCommand($cmd): void
+    public function performCommand(string $cmd): void
     {
         switch ($cmd) {
             case 'configure':

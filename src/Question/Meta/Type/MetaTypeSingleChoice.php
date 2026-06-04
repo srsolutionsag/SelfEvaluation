@@ -12,16 +12,19 @@ class MetaTypeSingleChoice extends MetaTypeSelect
 {
     public const TYPE_ID = 3;
 
+    #[\Override]
     public function getId(): int
     {
         return self::TYPE_ID;
     }
 
+    #[\Override]
     public function getTypeName(): string
     {
         return 'MetaTypeSingleChoice';
     }
 
+    #[\Override]
     public function getPresentationInputGUI(
         ilSelfEvaluationPlugin $plugin,
         string $title,

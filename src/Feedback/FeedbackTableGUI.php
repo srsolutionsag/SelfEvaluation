@@ -53,6 +53,7 @@ class FeedbackTableGUI extends ilTable2GUI
         );
     }
 
+    #[\Override]
     protected function fillRow($a_set): void
     {
         $obj = new Feedback($this->db, $a_set['id']);

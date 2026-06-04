@@ -6,11 +6,10 @@ namespace ilub\plugin\SelfEvaluation\Player\Block;
 
 use ilub\plugin\SelfEvaluation\Player\Question\MetaQuestionPlayerGUI;
 use ilub\plugin\SelfEvaluation\Player\PlayerFormContainer;
-use ilub\plugin\SelfEvaluation\Block\Meta\MetaBlock;
-use ilub\plugin\SelfEvaluation\Block\BlockType;
 
 class MetaBlockPlayerGUI extends BlockPlayerGUI
 {
+    #[\Override]
     public function getBlockForm(?PlayerFormContainer $parent_form = null): PlayerFormContainer
     {
         $form = parent::getBlockForm($parent_form);

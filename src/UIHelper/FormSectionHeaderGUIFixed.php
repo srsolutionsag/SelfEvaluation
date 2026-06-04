@@ -9,6 +9,7 @@ use ilTemplate;
 
 class FormSectionHeaderGUIFixed extends ilFormSectionHeaderGUI
 {
+    #[\Override]
     public function insert($a_tpl = null): void
     {
         /**

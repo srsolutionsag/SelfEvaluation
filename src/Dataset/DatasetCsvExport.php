@@ -45,6 +45,7 @@ class DatasetCsvExport extends csvExport
         $this->setObjectId($object_id);
     }
 
+    #[\Override]
     public function getCsvExport(string $delimiter = ";", string $enclosure = '"'): void
     {
         $this->getData();
@@ -121,7 +122,7 @@ class DatasetCsvExport extends csvExport
 
     protected function setMetaQuestionColumn(MetaQuestion $meta_question, int $position): int
     {
-        if ($meta_question->getTypeId() == MetaTypeMatrix::TYPE_ID) {
+        if ($meta_question->getTypeId() === MetaTypeMatrix::TYPE_ID) {
             $questions = MetaTypeMatrix::getQuestionsFromArray(
                 $meta_question->getValues()
             );
@@ -153,8 +154,8 @@ class DatasetCsvExport extends csvExport
                 )
             );
 
-            if ($meta_question->getTypeId() == MetaTypeSelect::TYPE_ID ||
-                $meta_question->getTypeId() == MetaTypeSingleChoice::TYPE_ID) {
+            if ($meta_question->getTypeId() === MetaTypeSelect::TYPE_ID ||
+                $meta_question->getTypeId() === MetaTypeSingleChoice::TYPE_ID) {
                 $this->getTable()->addColumn(
                     new csvExportColumn(
                         $column_name . " ID",
@@ -206,7 +207,7 @@ class DatasetCsvExport extends csvExport
     {
         $identifier = new Identity($this->db, $dataset->getIdentifierId());
         $id = $identifier->getIdentifier();
-        if ($identifier->getType() == Identity::TYPE_LOGIN) {
+        if ($identifier->getType() === Identity::TYPE_LOGIN) {
             $username = ilObjUser::_lookupName((int) $identifier->getIdentifier());
             $id = $username['login'];
         }
@@ -312,7 +313,7 @@ class DatasetCsvExport extends csvExport
     {
         $meta_csv_values = [];
 
-        if ($meta_question->getTypeId() == MetaTypeMatrix::TYPE_ID) {
+        if ($meta_question->getTypeId() === MetaTypeMatrix::TYPE_ID) {
             $question_values = $meta_question->getValues();
             $questions = MetaTypeMatrix::getQuestionsFromArray($question_values);
             foreach ($questions as $key => $question) {
@@ -333,8 +334,8 @@ class DatasetCsvExport extends csvExport
             $column_name = $this->generateUniqueName($row, $column_name);
             $key = $this->handledSkipped($entry->getValue());
 
-            if ($meta_question->getTypeId() == MetaTypeSelect::TYPE_ID ||
-                $meta_question->getTypeId() == MetaTypeSingleChoice::TYPE_ID) {
+            if ($meta_question->getTypeId() === MetaTypeSelect::TYPE_ID ||
+                $meta_question->getTypeId() === MetaTypeSingleChoice::TYPE_ID) {
                 $question_values = $meta_question->getValues();
                 if (array_key_exists($key, $question_values)) {
                     $meta_csv_values[] = new csvExportValue($column_name . " ID", $key);

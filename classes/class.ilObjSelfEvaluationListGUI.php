@@ -40,6 +40,7 @@ class ilObjSelfEvaluationListGUI extends ilObjectPluginListGUI
         ];
     }
 
+    #[\Override]
     public function getProperties(): array
     {
         $props = [];

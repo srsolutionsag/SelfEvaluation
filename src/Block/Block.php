@@ -24,7 +24,7 @@ abstract class Block implements hasDBFields, BlockType
 
     public function __construct(protected ilDBInterface $db, public int $id = 0)
     {
-        if ($this->id != 0) {
+        if ($this->id !== 0) {
             $this->read();
         }
     }
@@ -91,7 +91,7 @@ abstract class Block implements hasDBFields, BlockType
 
     public function update(): void
     {
-        if ($this->getId() == 0) {
+        if ($this->getId() === 0) {
             $this->create();
 
             return;

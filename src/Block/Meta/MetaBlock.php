@@ -76,6 +76,7 @@ class MetaBlock extends Block
         return 'rep_robj_xsev_mblock';
     }
 
+    #[\Override]
     public function delete(): int
     {
         $questions = MetaQuestion::_getAllInstancesForParentId($this->db, $this->getId());

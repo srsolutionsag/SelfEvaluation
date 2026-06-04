@@ -13,6 +13,7 @@ class ilSelfEvaluationPlugin extends ilRepositoryObjectPlugin
     }
 
 
+    #[\Override]
     public function getPluginName(): string
     {
         return 'SelfEvaluation';
@@ -32,6 +33,7 @@ class ilSelfEvaluationPlugin extends ilRepositoryObjectPlugin
     {
     }
 
+    #[\Override]
     public function allowCopy(): bool
     {
         return true;
@@ -40,13 +42,14 @@ class ilSelfEvaluationPlugin extends ilRepositoryObjectPlugin
     /**
      * @description This is the easiest way to fix all locations which use a template.
      */
+    #[\Override]
     public function getTemplate(string $a_template, bool $a_par1 = true, bool $a_par2 = true): ilTemplate
     {
         return new ilTemplate(
             $this->getTemplatePath($a_template),
             $a_par1,
             $a_par2,
-            __DIR__. '/../'
+            __DIR__ . '/../'
         );
     }
 
@@ -71,6 +74,7 @@ class ilSelfEvaluationPlugin extends ilRepositoryObjectPlugin
         return $a_template;
     }
 
+    #[\Override]
     public function getRelativeDirectory(): string
     {
         $ansolute_path = realpath(__DIR__ . '/../');
@@ -82,6 +86,7 @@ class ilSelfEvaluationPlugin extends ilRepositoryObjectPlugin
         return '';
     }
 
+    #[\Override]
     public function getStyleSheetLocation(string $a_css_file): string
     {
         return $this->getRelativeDirectory() . '/templates/' . $a_css_file;
@@ -90,6 +95,7 @@ class ilSelfEvaluationPlugin extends ilRepositoryObjectPlugin
     /**
      * @deprecated the core method is not working ATM.
      */
+    #[\Override]
     public static function _getIcon(string $a_type): string
     {
         return 'Customizing/global/plugins/Services/Repository/RepositoryObject/SelfEvaluation/templates/images/icon_xsev.svg';

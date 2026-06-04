@@ -99,7 +99,7 @@ class MetaQuestion extends BaseQuestion
 
     public function getValues(): array
     {
-        return $this->values ?: [];
+        return $this->values;
     }
 
     public function setValues(array $values): void

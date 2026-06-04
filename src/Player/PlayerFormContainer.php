@@ -26,6 +26,7 @@ class PlayerFormContainer extends ilPropertyFormGUI
      * @param        $a_cmd
      * @param        $a_text
      */
+    #[\Override]
     public function addCommandButton(string $a_cmd, string $a_text, string $a_id = ''): void
     {
         $this->copy_of_buttons[] = ["cmd" => $a_cmd, "text" => $a_text];
@@ -35,6 +36,7 @@ class PlayerFormContainer extends ilPropertyFormGUI
     /**
      * Remove all command buttons
      */
+    #[\Override]
     public function clearCommandButtons(): void
     {
         $this->copy_of_buttons = [];
@@ -51,6 +53,7 @@ class PlayerFormContainer extends ilPropertyFormGUI
     /**
      * Get Content.
      */
+    #[\Override]
     public function getContent(): string
     {
         $this->tpl = $this->plugin->getTemplate('default/Player/tpl.player_form.html');

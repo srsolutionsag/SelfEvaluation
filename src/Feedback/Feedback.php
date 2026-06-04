@@ -24,7 +24,7 @@ class Feedback implements hasDBFields
 
     public function __construct(protected ilDBInterface $db, public int $id = 0)
     {
-        if ($this->id != 0) {
+        if ($this->id !== 0) {
             $this->read();
         }
     }
@@ -106,7 +106,7 @@ class Feedback implements hasDBFields
 
     public function create(): void
     {
-        if ($this->getId() != 0) {
+        if ($this->getId() !== 0) {
             $this->update();
 
             return;
@@ -122,7 +122,7 @@ class Feedback implements hasDBFields
 
     public function update(): void
     {
-        if ($this->getId() == 0) {
+        if ($this->getId() === 0) {
             $this->create();
 
             return;
@@ -263,7 +263,7 @@ class Feedback implements hasDBFields
         $min = self::_getNextMinValueForParentId($db, $parent_id, 0, 0, $is_overall);
         $max = self::_getNextMaxValueForParentId($db, $parent_id, $min, 0, $is_overall);
 
-        return $min == 100 && $max == 100;
+        return $min === 100 && $max === 100;
     }
 
     public static function _getNewInstanceByParentId(ilDBInterface $db, int $parent_id, bool $is_overall = false): self

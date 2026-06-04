@@ -74,7 +74,7 @@ class ilSelfEvaluationConfig
             "SELECT config_value FROM " . $this->getTableName() . " WHERE config_key = "
             . $this->db->quote($key, "text")
         );
-        if ($result->numRows() == 0) {
+        if ($result->numRows() === 0) {
             return '';
         }
         $record = $this->db->fetchAssoc($result);
@@ -131,7 +131,7 @@ class ilSelfEvaluationConfig
 
         return preg_replace_callback(
             '/-([a-z])/',
-            fn($c): string => strtoupper((string) $c[1]),
+            fn($c): string => strtoupper($c[1]),
             $str
         );
     }

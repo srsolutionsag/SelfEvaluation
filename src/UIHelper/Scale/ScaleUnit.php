@@ -21,7 +21,7 @@ class ScaleUnit implements hasDBFields
 
     public function __construct(protected ilDBInterface $db, protected int $id = 0)
     {
-        if ($this->id != 0) {
+        if ($this->id !== 0) {
             $this->read();
         }
     }
@@ -95,7 +95,7 @@ class ScaleUnit implements hasDBFields
 
     public function create(): void
     {
-        if ($this->getId() != 0) {
+        if ($this->getId() !== 0) {
             $this->update();
 
             return;
@@ -111,7 +111,7 @@ class ScaleUnit implements hasDBFields
 
     public function update(): void
     {
-        if ($this->getId() == 0) {
+        if ($this->getId() === 0) {
             $this->create();
 
             return;

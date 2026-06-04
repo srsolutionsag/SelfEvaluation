@@ -172,7 +172,7 @@ class PlayerGUI
     {
         global $DIC;
         $items = count($DIC->http()->request()->getParsedBody()) - 1;
-        if ($items == 0) {
+        if ($items === 0) {
             return [];
         }
         $found_question = 0;

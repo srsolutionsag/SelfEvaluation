@@ -51,6 +51,7 @@ class QuestionTableGUI extends ilTable2GUI
         $this->addColumn($this->plugin->txt('actions'), '', 'auto');
     }
 
+    #[\Override]
     public function fillRow(array $a_set): void
     {
         $this->ctrl->setParameterByClass('QuestionGUI', 'question_id', $a_set['id']);

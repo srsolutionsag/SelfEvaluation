@@ -42,6 +42,7 @@ class BlockTableGUI extends ilTable2GUI
         );
     }
 
+    #[\Override]
     protected function fillRow(array $a_set): void
     {
         // Row

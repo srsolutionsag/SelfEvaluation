@@ -739,13 +739,14 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
                 return true;
             }
         }
+        $found = false;
         foreach (MetaBlock::_getAllInstancesByParentId($this->db, $this->getId()) as $block) {
             if (count($block->getQuestions()) > 0) {
-                return true;
+                $found = true;
+                break;
             }
         }
-
-        return false;
+        return $found;
     }
 
     public function areFeedbacksComplete(): bool
@@ -764,13 +765,14 @@ class ilObjSelfEvaluation extends ilObjectPlugin implements hasDBFields
 
     public function hasDatasets(): bool
     {
+        $found = false;
         foreach (Identity::_getAllInstancesByObjId($this->db, $this->getId()) as $id) {
             if (count(Dataset::_getAllInstancesByIdentifierId($this->db, $id->getId())) > 0) {
-                return true;
+                $found = true;
+                break;
             }
         }
-
-        return false;
+        return $found;
     }
 
     public function areBlocksSortable(): bool

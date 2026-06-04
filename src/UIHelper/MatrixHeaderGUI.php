@@ -64,6 +64,7 @@ class MatrixHeaderGUI extends ilSubEnabledFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
+    #[\Override]
     public function checkInput(): bool
     {
         return $this->checkSubItemsInput();
@@ -72,21 +73,25 @@ class MatrixHeaderGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param mixed $parentform
      */
+    #[\Override]
     public function setParentform($a_parentform): void
     {
         $this->parentform = $a_parentform;
     }
 
+    #[\Override]
     public function getParentform(): ?\ilPropertyFormGUI
     {
         return $this->parentform;
     }
 
+    #[\Override]
     public function setPostvar(string $a_postvar): void
     {
         $this->postvar = $a_postvar;
     }
 
+    #[\Override]
     public function getPostvar(): string
     {
         return $this->postvar;
@@ -113,6 +118,7 @@ class MatrixHeaderGUI extends ilSubEnabledFormPropertyGUI
         return $this->block_info;
     }
 
+    #[\Override]
     public function getRequired(): bool
     {
         return false;

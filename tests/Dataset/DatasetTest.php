@@ -12,11 +12,11 @@ use ilub\plugin\SelfEvaluation\Dataset\Data;
 use ilub\plugin\SelfEvaluation\Block\Matrix\QuestionBlock;
 use ilub\plugin\SelfEvaluation\Question\Matrix\Question;
 
-class DatasetsTest extends TestCase
+final class DatasetsTest extends TestCase
 {
     use DatasetHelperTrait;
 
-    protected Dataset $dataset;
+    private Dataset $dataset;
     protected MockInterface|ilDBInterface $db;
 
     protected function setUp(): void
@@ -30,23 +30,23 @@ class DatasetsTest extends TestCase
 
     public function testConstruct(): void
     {
-        self::assertEquals(Dataset::class, $this->dataset::class);
+        $this->assertSame(Dataset::class, $this->dataset::class);
     }
 
     public function testIdAfterConstruct(): void
     {
-        self::assertEquals(0, $this->dataset->getId());
+        $this->assertSame(0, $this->dataset->getId());
     }
 
     public function testSetId(): void
     {
         $this->dataset->setId(1);
-        self::assertEquals(1, $this->dataset->getId());
+        $this->assertSame(1, $this->dataset->getId());
     }
 
     public function testGetArrayForDBOnEmpty(): void
     {
-        self::assertEquals([
+        $this->assertSame([
             'id' => ['integer', 0],
             'identifier_id' => ['integer', 0],
             'creation_date' => ['integer', 0],
@@ -61,7 +61,7 @@ class DatasetsTest extends TestCase
         $this->dataset->setId(1);
         $this->db->shouldReceive("insert")->with([$this->dataset::TABLE_NAME, $this->dataset->getArrayForDb()]);
         $this->dataset->updateValuesByPost($data);
-        self::assertTrue(true);
+        $this->assertTrue(true);
     }
 
     public function testUpdateValuesByPostQuestion(): void
@@ -86,7 +86,7 @@ class DatasetsTest extends TestCase
 
         $this->dataset->updateValuesByPost($data);
 
-        self::assertTrue(true);
+        $this->assertTrue(true);
     }
 
     public function testUpdateValuesByPostMetaQuestion(): void
@@ -101,7 +101,7 @@ class DatasetsTest extends TestCase
 
         $this->checkMockeryForUpdateValuesByPost($data, [$data_fixture]);
 
-        self::assertTrue(true);
+        $this->assertTrue(true);
     }
 
     public function testUpdateValuesByPostMetaQuestionCombination(): void
@@ -128,7 +128,7 @@ class DatasetsTest extends TestCase
 
         $this->checkMockeryForUpdateValuesByPost($data, [$data_fixture1, $data_fixture2, $data_fixture3]);
 
-        self::assertTrue(true);
+        $this->assertTrue(true);
     }
 
     protected function checkMockeryForUpdateValuesByPost(array $data, $fixtures)
@@ -151,13 +151,13 @@ class DatasetsTest extends TestCase
     public function testSetHighestScale(): void
     {
         $this->dataset->setHighestScale(75);
-        self::assertEquals(75, $this->dataset->getHighestValueFromScale());
+        $this->assertSame(75, $this->dataset->getHighestValueFromScale());
     }
 
     public function testSetQuestionBlocksEmpty(): void
     {
         $this->dataset->setQuestionBlocks([]);
-        self::assertEquals([], $this->dataset->getQuestionBlocks());
+        $this->assertSame([], $this->dataset->getQuestionBlocks());
     }
 
     public function testSetQuestionBlocksNotEmpty(): void
@@ -165,7 +165,7 @@ class DatasetsTest extends TestCase
         $block1 = new QuestionBlock($this->db);
         $block1->setId(1);
         $this->dataset->setQuestionBlocks([$block1]);
-        self::assertEquals([$block1], $this->dataset->getQuestionBlocks());
+        $this->assertEquals([$block1], $this->dataset->getQuestionBlocks());
     }
 
     public function testSetQuestionsDataForBlocksEmpty(): void
@@ -173,7 +173,7 @@ class DatasetsTest extends TestCase
         $block1 = new QuestionBlock($this->db);
         $block1->setId(1);
         $this->dataset->setQuestionsDataForBlocks([$block1->getId() => []]);
-        self::assertEquals([], $this->dataset->getQuestionsDataPerBlock($block1->getId()));
+        $this->assertSame([], $this->dataset->getQuestionsDataPerBlock($block1->getId()));
     }
 
     public function testSetQuestionsDataForBlocksNotEmpty(): void
@@ -185,17 +185,14 @@ class DatasetsTest extends TestCase
         $answer = new Data($this->db);
         $answer->setValue("0");
         $this->dataset->setQuestionsDataForBlocks([$block1->getId() => [$question1->getId() => $answer]]);
-        self::assertEquals(
-            [$question1->getId() => $answer],
-            $this->dataset->getQuestionsDataPerBlock($block1->getId())
-        );
+        $this->assertEquals([$question1->getId() => $answer], $this->dataset->getQuestionsDataPerBlock($block1->getId()));
     }
 
     public function testGetPercentageForBlockOnEmptyDataSet(): void
     {
         $this->dataset->setHighestScale(75);
         $this->dataset->setQuestionBlocks([]);
-        self::assertNull($this->dataset->getPercentageForBlock(1));
+        $this->assertNull($this->dataset->getPercentageForBlock(1));
     }
 
     public function testGetPercentageForBlockOnSingularSetNoAnswer(): void
@@ -208,7 +205,7 @@ class DatasetsTest extends TestCase
             $this->dataset->getPercentageForBlock(1);
             self::fail();
         } catch (Exception) {
-            self::assertTrue(true);
+            $this->assertTrue(true);
         }
     }
 
@@ -220,7 +217,7 @@ class DatasetsTest extends TestCase
         $this->dataset->setQuestionBlocks([$block1]);
         $this->dataset->setQuestionsDataForBlocks([$block1->getId() => [$question1->getId() => $answer1]]);
 
-        self::assertEquals(0 / 5 * 100, $this->dataset->getPercentageForBlock(1));
+        $this->assertEquals(0 / 5 * 100, $this->dataset->getPercentageForBlock(1));
     }
 
     public function testGetPercentageForBlockOnSingularSetMaxAnswer(): void
@@ -231,7 +228,7 @@ class DatasetsTest extends TestCase
         $this->dataset->setQuestionBlocks([$block1]);
         $this->dataset->setQuestionsDataForBlocks([$block1->getId() => [$question1->getId() => $answer1]]);
 
-        self::assertEquals(100, $this->dataset->getPercentageForBlock(1));
+        $this->assertEquals(100, $this->dataset->getPercentageForBlock(1));
     }
 
     public function testGetPercentageForBlockOnSingularSetMediumAnswer(): void
@@ -242,7 +239,7 @@ class DatasetsTest extends TestCase
         $this->dataset->setQuestionBlocks([$block1]);
         $this->dataset->setQuestionsDataForBlocks([$block1->getId() => [$question1->getId() => $answer1]]);
 
-        self::assertEquals(2 / 5 * 100, $this->dataset->getPercentageForBlock(1));
+        $this->assertSame(2 / 5 * 100, $this->dataset->getPercentageForBlock(1));
     }
 
     public function testGetPercentageForBlockOnSingularSetReversedScale(): void
@@ -253,40 +250,31 @@ class DatasetsTest extends TestCase
         $answer1->setValue("2");
         $this->dataset->setQuestionsDataForBlocks([$block1->getId() => [$question1->getId() => $answer1]]);
 
-        self::assertEquals(2 / 5 * 100, $this->dataset->getPercentageForBlock(1));
+        $this->assertSame(2 / 5 * 100, $this->dataset->getPercentageForBlock(1));
     }
 
     public function testGetPercentageForBlockWithMultipleQuestionAnswers(): void
     {
         $this->dataset = $this->setUpDatasetWithThreeBlocks($this->dataset);
         $percentages = $this->getBlockThreeBlocksPercentages();
-        self::assertEquals(
-            $percentages[$this->getBlock1()->getId()],
-            $this->dataset->getPercentageForBlock($this->getBlock1()->getId())
-        );
+        $this->assertEquals($percentages[$this->getBlock1()->getId()], $this->dataset->getPercentageForBlock($this->getBlock1()->getId()));
     }
 
     public function testGetPercentagePerBlockWithMultipleQuestionAnswers(): void
     {
         $this->dataset = $this->setUpDatasetWithThreeBlocks($this->dataset);
-        self::assertEquals($this->getBlockThreeBlocksPercentages(), $this->dataset->getPercentagePerBlock());
+        $this->assertEquals($this->getBlockThreeBlocksPercentages(), $this->dataset->getPercentagePerBlock());
     }
 
     public function testGetMinPercentageBlock(): void
     {
         $this->dataset = $this->setUpDatasetWithThreeBlocks($this->dataset);
-        self::assertEquals(
-            [$this->getBlock2(), $this->getBlock2Percentage()],
-            $this->dataset->getMinPercentageBlockAndMin()
-        );
+        $this->assertEquals([$this->getBlock2(), $this->getBlock2Percentage()], $this->dataset->getMinPercentageBlockAndMin());
     }
 
     public function testGetMaxPercentageBlock(): void
     {
         $this->dataset = $this->setUpDatasetWithThreeBlocks($this->dataset);
-        self::assertEquals(
-            [$this->getBlock1(), $this->getBlock1Percentage()],
-            $this->dataset->getMaxPercentageBlockAndMax()
-        );
+        $this->assertEquals([$this->getBlock1(), $this->getBlock1Percentage()], $this->dataset->getMaxPercentageBlockAndMax());
     }
 }

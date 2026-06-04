@@ -319,7 +319,7 @@ class FeedbackChartGUI
         return $chart;
     }
 
-    protected function setUnusedLegendLabels(array $scale_unit)
+    protected function setUnusedLegendLabels(array $scale_unit): array
     {
         $key = array_search('', $scale_unit);
         if ($key === false) {
