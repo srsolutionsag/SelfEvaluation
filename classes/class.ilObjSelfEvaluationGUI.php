@@ -55,15 +55,15 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
         global $DIC;
         $this->db = $DIC->database();
         $this->refinery = $DIC->refinery();
-        $this->http = $DIC->http()->wrapper();
+        $this->http = $DIC->http();
         $this->ui = $DIC->ui();
         parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
     }
 
     public function displayIdentifier(): void
     {
-        if ($this->http->query()->has('uid')) {
-            $id = new Identity($this->db, $this->http->query()->retrieve('uid', $this->refinery->kindlyTo()->int()));
+        if ($this->http->wrapper()->query()->has('uid')) {
+            $id = new Identity($this->db, $this->http->wrapper()->query()->retrieve('uid', $this->refinery->kindlyTo()->int()));
             if ($id->getType() === Identity::TYPE_EXTERNAL && $this->object->isIdentitySelection()) {
                 global $ilToolbar;
                 $ilToolbar->addText('<b>' . $this->txt('your_uid') . ' ' . $id->getIdentifier() . '</b>');
@@ -107,10 +107,10 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
             if ($this->access->checkAccess(
                 'read',
                 '',
-                $this->http->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int())
+                $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int())
             )) {
                 $this->nav_history->addItem(
-                    $this->http->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int()),
+                    $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int()),
                     $this->ctrl->getLinkTarget($this, $this->getStandardCmd()),
                     $this->getType()
                 );
@@ -123,25 +123,25 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
             $this->ctrl->saveParameterByClass('FeedbackGUI', 'uid');
 
             // Try to determine the block_id and request_id from POST or GET
-            $block_id = $this->http->query()->has('block_id')
-                ? $this->http->query()->retrieve('block_id', $this->refinery->kindlyTo()->int())
+            $block_id = $this->http->wrapper()->query()->has('block_id')
+                ? $this->http->wrapper()->query()->retrieve('block_id', $this->refinery->kindlyTo()->int())
                 : null;
 
             if ($block_id === null) {
-                $block_id = $this->http->post()->has('block_id')
-                    ? $this->http->post()->retrieve('block_id', $this->refinery->kindlyTo()->int())
+                $block_id = $this->http->wrapper()->post()->has('block_id')
+                    ? $this->http->wrapper()->post()->retrieve('block_id', $this->refinery->kindlyTo()->int())
                     : null;
             }
 
             $block_id ??= 0;
 
-            $request_id = $this->http->query()->has('question_id')
-                ? $this->http->query()->retrieve('question_id', $this->refinery->kindlyTo()->int())
+            $request_id = $this->http->wrapper()->query()->has('question_id')
+                ? $this->http->wrapper()->query()->retrieve('question_id', $this->refinery->kindlyTo()->int())
                 : null;
 
             if ($request_id === null) {
-                $request_id = $this->http->post()->has('question_id')
-                    ? $this->http->post()->retrieve('question_id', $this->refinery->kindlyTo()->int())
+                $request_id = $this->http->wrapper()->post()->has('question_id')
+                    ? $this->http->wrapper()->post()->retrieve('question_id', $this->refinery->kindlyTo()->int())
                     : null;
             }
 
@@ -163,7 +163,7 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
                         $this->toolbar,
                         $this->access,
                         $this->plugin,
-                        $this->http,
+                        $this->http->wrapper(),
                         $this->refinery,
                         $this->ui
                     );
@@ -249,7 +249,7 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
                         $this->ctrl,
                         $this->toolbar,
                         $this->access,
-                        $this->http,
+                        $this->http->wrapper(),
                         $this->refinery,
                         $this->plugin,
                         $this->ui
@@ -275,7 +275,7 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
                         $this->tpl,
                         $this->ctrl,
                         $this->plugin,
-                        $this->http,
+                        $this->http->wrapper(),
                         $this->refinery
                     );
                     $this->ctrl->forwardCommand($gui);
@@ -292,7 +292,7 @@ class ilObjSelfEvaluationGUI extends ilObjectPluginGUI
                         $this->toolbar,
                         $this->access,
                         $this->plugin,
-                        $this->http,
+                        $this->http->wrapper(),
                         $this->refinery,
                         $this->ui
                     );
