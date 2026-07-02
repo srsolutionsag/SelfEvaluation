@@ -53,14 +53,8 @@
             });
         });
 
-        // Sortable using vanilla JS (requires external library or custom logic)
-        const tableBody = document.querySelector('table#input_colletion tbody');
-        if (tableBody) {
-            new Sortable(tableBody, {
-                handle: '.fsxSortable', // adjust as needed
-                animation: 150,
-            });
-        }
+        // Row sorting is handled by templates/js/sortable.js, which auto-inits
+        // every table containing tr.fsxSortable rows using the move icon as handle.
     });
 </script>
 <style>
