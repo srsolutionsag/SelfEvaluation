@@ -1,26 +1,34 @@
-printFeedback = function () {
-    this.originalBodyWidht = $("body").width();
+/**
+ * Print helper for the feedback / results view, dependency-free.
+ *
+ * ILIAS 11 no longer ships jQuery. Temporarily narrow the layout for a cleaner
+ * print, then restore it. Exposed globally because it is triggered via an
+ * inline onclick="printFeedback()" set in FeedbackChartGUI.
+ */
+window.printFeedback = function () {
+    var body = document.body;
+    var mainbar = document.querySelector('.il-maincontrols-mainbar');
+    var originalBodyWidth = body.style.width;
+    var originalMainbarWidth = mainbar ? mainbar.style.width : '';
 
-    window.onafterprint = function (e) {
-        $(window).off('mousemove', window.onafterprint);
-        $("body").width(this.originalBodyWidht);
-        console.log("On After Print");
-    };
-   //make sure mainbar-slates not too big
-  $(".il-maincontrols-mainbar").css("width", "80px");
-
-    $.when($("body").width(800)).then(
-        function () {
-            setTimeout(
-                function () {
-                    window.print();
-                    setTimeout(function () {
-                        $(window).one('mousemove', window.onafterprint);
-                        console.log("On After One");
-
-                    }, 1)
-                  $(".il-maincontrols-mainbar").css("width", "");// normal size again
-                }, 500)
+    function restore() {
+        body.style.width = originalBodyWidth;
+        if (mainbar) {
+            mainbar.style.width = originalMainbarWidth;
         }
-    );
+    }
+
+    window.onafterprint = restore;
+
+    // Make sure the mainbar slates are not too big while printing.
+    if (mainbar) {
+        mainbar.style.width = '80px';
+    }
+    body.style.width = '800px';
+
+    setTimeout(function () {
+        window.print();
+        // Fallback for browsers that do not fire onafterprint.
+        setTimeout(restore, 1000);
+    }, 500);
 };
