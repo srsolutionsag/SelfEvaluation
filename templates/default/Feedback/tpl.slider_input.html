@@ -1,61 +1,105 @@
-<div class="fsx_slider">
-    <script src="./node_modules/jquery/dist/jquery.js?version=8_7"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var autocorrect = false;
-            $('div#{POSTVAR}').slider({
-                range: true,
-                min: {MIN},
-                max: {MAX},
-                values: [
-                    {VAL_FROM},
-                    {VAL_TO}
-                ],
-
-
-                slide: function (event, ui) {
-                    $('#amount').val('' + ui.values[0] + '{UNIT} - ' + ui.values[1] + '{UNIT}');
-                    $('#{POSTVAR}_from').val(ui.values[0]);
-                    $('#{POSTVAR}_to').val(ui.values[1]);
-                },
-                change: function (e, ui) {
-                    var link = '{AJAX}';
-                    var replacer = new RegExp('amp;', 'g');
-                    link = link.replace(replacer, '') + '&from=' + ui.values[0] + '&to=' + ui.values[1] + '&start_value=' + ui.values[0];
-
-                    $.getJSON(link, function (data) {
-                        if (!data.check) {
-                            $('#warn_{POSTVAR}').slideDown(200);
-                            $('#warn_{POSTVAR}').parent('div.fsx_slider').addClass('slider_warning', 400);
-                            $('#{POSTVAR}').slider('values', [data.next_from, data.next_to]);
-                            $('#{POSTVAR}_from').val(data.next_from);
-                            $('#{POSTVAR}_to').val(data.next_to);
-                            $('#amount').val('' + data.next_from + '{UNIT}' + ' - ' + data.next_to + '{UNIT}');
-                            autocorrect = true;
-                        } else {
-                            if (autocorrect) {
-                                $('#warn_{POSTVAR}').delay(7000).slideUp(200);
-                                $('#warn_{POSTVAR}').parent('div.fsx_slider').delay(7000).removeClass('slider_warning', 400);
-                                autocorrect = false;
-                            }
-
-                        }
-                    });
-
-                }
-            });
-            $('#amount').val('' + $('#{POSTVAR}').slider('values', 0) + '{UNIT}' +
-                ' - ' + $('#{POSTVAR}').slider('values', 1) + '{UNIT}');
-        });
-    </script>
+<div class="fsx_slider" id="wrap_{POSTVAR}">
+    <style>
+        .fsx_range { position: relative; height: 36px; max-width: 400px; }
+        .fsx_range_track { position: absolute; top: 16px; left: 8px; right: 8px; height: 4px; background: #ccc; border-radius: 2px; }
+        .fsx_range_fill { position: absolute; height: 100%; background: #4c6586; border-radius: 2px; }
+        .fsx_range input[type=range] { position: absolute; top: 0; left: 0; width: 100%; height: 36px; margin: 0; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; }
+        .fsx_range input[type=range]::-webkit-slider-thumb { pointer-events: auto; -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #4c6586; cursor: pointer; margin-top: -6px; }
+        .fsx_range input[type=range]::-moz-range-thumb { pointer-events: auto; width: 16px; height: 16px; border: none; border-radius: 50%; background: #4c6586; cursor: pointer; }
+        .fsx_range input[type=range]::-webkit-slider-runnable-track { background: transparent; height: 4px; }
+        .fsx_range input[type=range]::-moz-range-track { background: transparent; height: 4px; }
+    </style>
     <p>
-        <input type='text' id='amount' disabled/>
+        <input type='text' id='{POSTVAR}_amount' readonly/>
         <input type="hidden" name="{POSTVAR}_from" id="{POSTVAR}_from" value="{VAL_FROM}">
         <input type="hidden" name="{POSTVAR}_to" id="{POSTVAR}_to" value="{VAL_TO}">
     </p>
 
+    <div class="fsx_range">
+        <div class="fsx_range_track"><div class="fsx_range_fill" id="{POSTVAR}_fill"></div></div>
+        <input type="range" min="{MIN}" max="{MAX}" value="{VAL_FROM}" id="{POSTVAR}_from_r">
+        <input type="range" min="{MIN}" max="{MAX}" value="{VAL_TO}" id="{POSTVAR}_to_r">
+    </div>
+
     <div class="fsx_slider_warning" id="warn_{POSTVAR}" style="display: none;">
         {WARNING}
     </div>
-    <div id='{POSTVAR}'></div>
+
+    <script type="text/javascript">
+        (function () {
+            var min = {MIN}, max = {MAX}, unit = '{UNIT}', ajax = '{AJAX}';
+            var fromR = document.getElementById('{POSTVAR}_from_r');
+            var toR = document.getElementById('{POSTVAR}_to_r');
+            var fromH = document.getElementById('{POSTVAR}_from');
+            var toH = document.getElementById('{POSTVAR}_to');
+            var fill = document.getElementById('{POSTVAR}_fill');
+            var amount = document.getElementById('{POSTVAR}_amount');
+            var warn = document.getElementById('warn_{POSTVAR}');
+            var wrap = document.getElementById('wrap_{POSTVAR}');
+            if (!fromR || !toR) {
+                return;
+            }
+            var autocorrect = false;
+
+            function pct(v) {
+                return max > min ? ((v - min) / (max - min)) * 100 : 0;
+            }
+
+            function render() {
+                var f = parseInt(fromR.value, 10);
+                var t = parseInt(toR.value, 10);
+                fromH.value = f;
+                toH.value = t;
+                if (fill) {
+                    fill.style.left = pct(f) + '%';
+                    fill.style.width = (pct(t) - pct(f)) + '%';
+                }
+                amount.value = f + unit + ' - ' + t + unit;
+            }
+
+            function check() {
+                if (!ajax || ajax === '0') {
+                    return;
+                }
+                var link = ajax.replace(/amp;/g, '')
+                    + '&from=' + fromR.value + '&to=' + toR.value + '&start_value=' + fromR.value;
+                fetch(link, {headers: {'Accept': 'application/json'}, credentials: 'same-origin'})
+                    .then(function (r) { return r.json(); })
+                    .then(function (data) {
+                        if (!data.check) {
+                            fromR.value = data.next_from;
+                            toR.value = data.next_to;
+                            render();
+                            if (warn) { warn.style.display = ''; }
+                            if (wrap) { wrap.classList.add('slider_warning'); }
+                            autocorrect = true;
+                        } else if (autocorrect) {
+                            setTimeout(function () {
+                                if (warn) { warn.style.display = 'none'; }
+                                if (wrap) { wrap.classList.remove('slider_warning'); }
+                            }, 7000);
+                            autocorrect = false;
+                        }
+                    })
+                    .catch(function () {});
+            }
+
+            fromR.addEventListener('input', function () {
+                if (parseInt(fromR.value, 10) > parseInt(toR.value, 10)) {
+                    fromR.value = toR.value;
+                }
+                render();
+            });
+            toR.addEventListener('input', function () {
+                if (parseInt(toR.value, 10) < parseInt(fromR.value, 10)) {
+                    toR.value = fromR.value;
+                }
+                render();
+            });
+            fromR.addEventListener('change', check);
+            toR.addEventListener('change', check);
+
+            render();
+        })();
+    </script>
 </div>
