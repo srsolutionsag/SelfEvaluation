@@ -1,53 +1,51 @@
-(function ($) {
-    this.full_unit_titels = [];
-    /** Fix bootstrap naming collision with tooltip in ILIAS 4.3 **/
-    il.Tooltip.add = function (el_id, cfg) {
-    };
-    $("#help_tt").remove();
-    /** End Fix **/
+/**
+ * Player matrix-question layout helpers, dependency-free.
+ *
+ * ILIAS 11 no longer ships jQuery, so the previous jQuery/Bootstrap-tooltip
+ * implementation could not run. This vanilla replacement:
+ *  - truncates overflowing scale-unit header labels to a short form; the full
+ *    label stays available through the native `title` tooltip already present
+ *    on the element (see tpl.matrix_header.html).
+ *  - aligns each matrix radio row height with its question-text height so the
+ *    columns line up.
+ */
+(function () {
+    "use strict";
 
-    this.updateScaleUnits = function () {
-        var self = this;
-        $(".scale-units td div").each(function () {
-            var id = $(this).attr("id");
-            $(this).text(self.full_unit_titels[id]);
-            if ($(this).prop('scrollWidth') > ($(this).width() + 1)) {
-                $(this).attr("data-toggle", "tooltip");
-                $(this).text(function () {
-                    return $(this).text().substring(0, 3) + "...";
-                });
-                $(this).tooltip('enable');
-                $(this).tooltip({trigger: 'hover'});
-            }
-            else {
-                $(this).tooltip('disable');
-                $(this).text(self.full_unit_titels[id]);
+    function updateScaleUnits() {
+        document.querySelectorAll(".scale-units td div").forEach(function (div) {
+            var full = div.getAttribute("title") || div.dataset.fullTitle || div.textContent;
+            div.dataset.fullTitle = full;
+            div.textContent = full;
+            if (div.scrollWidth > div.clientWidth + 1) {
+                div.textContent = full.substring(0, 3) + "...";
             }
         });
-    };
+    }
 
-    this.scaleMatrix = function () {
-        $(".matrix-row-input").each(function () {
-            parent_object = $(this).parents(".block-question");
-            $(this).height(parent_object.children(".question-text").outerHeight());
+    function scaleMatrix() {
+        document.querySelectorAll(".matrix-row-input").forEach(function (row) {
+            var block = row.closest(".block-question");
+            if (!block) {
+                return;
+            }
+            var question = block.querySelector(".question-text");
+            if (question) {
+                row.style.height = question.offsetHeight + "px";
+            }
         });
-    };
+    }
 
-    $(window).resize(function () {
-        self.updateScaleUnits();
-        self.scaleMatrix();
+    function run() {
+        updateScaleUnits();
+        scaleMatrix();
+    }
 
-    });
-
-    $(window).load(function () {
-        console.log("hello Scale units");
-        var self = this;
-        $(".scale-units td div").each(function () {
-            var id = $(this).attr("id");
-            self.full_unit_titels[id] = $(this).text();
-        });
-
-        self.updateScaleUnits();
-        self.scaleMatrix();
-    });
-})(jQuery);
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", run);
+    } else {
+        run();
+    }
+    window.addEventListener("load", run);
+    window.addEventListener("resize", run);
+})();
