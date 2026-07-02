@@ -89,8 +89,8 @@ abstract class BaseQuestionGUI
 
     protected function saveSorting()
     {
-        if ($this->parent->http->post()->has('position')) {
-            $post_array = $this->parent->http->post()->retrieve(
+        if ($this->parent->http->wrapper()->post()->has('position')) {
+            $post_array = $this->parent->http->wrapper()->post()->retrieve(
                 'position',
                 $this->parent->refinery->kindlyTo()->listOf($this->parent->refinery->kindlyTo()->int())
             );

@@ -143,8 +143,8 @@ class MetaQuestionGUI extends BaseQuestionGUI
     protected function saveRequired()
     {
         foreach (MetaQuestion::_getAllInstancesForParentId($this->db, $this->block->getId()) as $question) {
-            if ($this->parent->http->post()->has('required')) {
-                $required_array = $this->parent->http->post()->retrieve(
+            if ($this->parent->http->wrapper()->post()->has('required')) {
+                $required_array = $this->parent->http->wrapper()->post()->retrieve(
                     'required',
                     $this->parent->refinery->kindlyTo()->dictOf($this->parent->refinery->kindlyTo()->int())
                 );

@@ -19,10 +19,10 @@ class QuestionBlockGUI extends BlockGUI
         ilObjSelfEvaluationGUI $parent
     ) {
         parent::__construct($db, $tpl, $ilCtrl, $access, $plugin, $parent);
-        if ($parent->http->query()->has('block_id')) {
+        if ($parent->http->wrapper()->query()->has('block_id')) {
             $this->object = new QuestionBlock(
                 $this->db,
-                $parent->http->query()->retrieve('block_id', $parent->refinery->kindlyTo()->int())
+                $parent->http->wrapper()->query()->retrieve('block_id', $parent->refinery->kindlyTo()->int())
             );
         } else {
             $this->object = new QuestionBlock($this->db);
