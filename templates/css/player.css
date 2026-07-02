@@ -91,10 +91,6 @@ h4 {
     padding-top: 20px;
 }
 
-.block-header + .block-question {
-    display: none;
-}
-
 .sev-commands {
     margin-top: 20px;
 }
