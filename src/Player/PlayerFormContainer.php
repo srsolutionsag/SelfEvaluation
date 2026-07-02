@@ -62,7 +62,6 @@ class PlayerFormContainer extends ilPropertyFormGUI
         $this->global_tpl->addJavaScript("Services/Form/js/Form.js");
         $this->global_tpl->addJavaScript("./Services/UIComponent/Tooltip/js/ilTooltip.js");
         $this->global_tpl->addJavaScript($this->plugin->getRelativeDirectory() . "/templates/js/scale_units.js");
-        $this->global_tpl->addJavaScript($this->plugin->getRelativeDirectory() . "/templates/js/jquery.knob.js");
         $this->global_tpl->addOnLoadCode('il.Tooltip.init();', 3);
 
         $required_text = false;

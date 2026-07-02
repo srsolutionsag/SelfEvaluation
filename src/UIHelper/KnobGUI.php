@@ -34,25 +34,11 @@ class KnobGUI
     public function render(ilGlobalTemplateInterface $tpl, ilRepositoryObjectPlugin $plugin): void
     {
         self::$num++;
-        $tpl->addJavaScript($plugin->getRelativeDirectory() . '/templates/js/jquery.knob.js');
-        $knob = $plugin->getTemplate('default/Form/tpl.knob.html', false, false);
-        $knob->setVariable('ID', 'knob_' . self::getNum());
-        $knob->setVariable('VALUE', $this->getValue());
-        $knob->setVariable('MIN', $this->getMin());
-        $knob->setVariable('MAX', $this->getMax());
-        $knob->setVariable('READONLY', $this->getReadOnly() ? 'true' : 'false');
-        $knob->setVariable('FGCOLOR', implode(', ', $this->getFgColor()));
-        $knob->setVariable('INCOLOR', implode(', ', $this->getInputColor()));
-        $knob->setVariable('BGCOLOR', implode(', ', $this->getBgColor()));
-        $knob->setVariable('ANGLEOFFSET', $this->getAngleOffset());
-        $knob->setVariable('ANGLEARC', $this->getAngleArc());
-        $knob->setVariable('STOPPER', $this->getStopper() ? 'true' : 'false');
-        $knob->setVariable('THICKNESS', $this->getThickness());
-        $knob->setVariable('LINECAP', $this->getLineCap());
-        $knob->setVariable('HEIGHT', $this->getHeight());
-        $knob->setVariable('DISPLAYINPUT', $this->getDisplayInput() ? 'true' : 'false');
-        $knob->setVariable('DISPLAYPREVIOUS', $this->getDisplayPrevious() ? 'true' : 'false');
-        $this->setHtml($knob->get());
+        global $DIC;
+        $maximum = max(1, $this->getMax());
+        $main = min($maximum, max($this->getMin(), $this->getValue()));
+        $progress_meter = $DIC->ui()->factory()->chart()->progressMeter()->standard($maximum, $main);
+        $this->setHtml('<div class="knob">' . $DIC->ui()->renderer()->render($progress_meter) . '</div>');
     }
 
     public function setHtml(string $html): void
