@@ -26,6 +26,7 @@ class MetaQuestionGUI extends BaseQuestionGUI
     {
         return new MetaQuestionTableGUI(
             $this,
+            $this->ui,
             $this->plugin,
             $this->tpl,
             'showContent',

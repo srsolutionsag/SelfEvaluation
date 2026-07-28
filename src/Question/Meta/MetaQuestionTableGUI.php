@@ -7,7 +7,7 @@ namespace ilub\plugin\SelfEvaluation\Question\Meta;
 use ilTable2GUI;
 use ilSelfEvaluationPlugin;
 use ilub\plugin\SelfEvaluation\Question\Meta\Type\MetaTypeFactory;
-use ilAdvancedSelectionListGUI;
+use ILIAS\DI\UIServices;
 use MetaQuestionGUI;
 use ilGlobalTemplateInterface;
 use ilub\plugin\SelfEvaluation\Block\Block;
@@ -16,6 +16,7 @@ class MetaQuestionTableGUI extends ilTable2GUI
 {
     public function __construct(
         MetaQuestionGUI $a_parent_obj,
+        protected UIServices $ui,
         protected ilSelfEvaluationPlugin $plugin,
         ilGlobalTemplateInterface $global_template,
         string $a_parent_cmd,
@@ -87,16 +88,17 @@ class MetaQuestionTableGUI extends ilTable2GUI
         $this->tpl->setVariable('REQUIRED_CHECKED', $a_set['required'] ? 'checked="checked"' : '');
 
         // actions
-        $ac = new ilAdvancedSelectionListGUI();
-        $ac->setId((string) $a_set['id']);
-        $ac->setListTitle($this->lng->txt('actions'));
+        $dropdown = $this->ui->factory()->dropdown()->standard([
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('edit'),
+                $this->ctrl->getLinkTarget($this->getParentObject(), 'editQuestion')
+            ),
+            $this->ui->factory()->link()->standard(
+                $this->lng->txt('delete'),
+                $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteQuestion')
+            )
+        ]);
 
-        $edit_link = $this->ctrl->getLinkTarget($this->getParentObject(), 'editQuestion');
-        $ac->addItem($this->lng->txt('edit'), 'edit_field', $edit_link);
-
-        $delete_link = $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteQuestion');
-        $ac->addItem($this->lng->txt('delete'), 'delete_field', $delete_link);
-
-        $this->tpl->setVariable('ACTIONS', $ac->getHTML());
+        $this->tpl->setVariable('ACTIONS', $this->ui->renderer()->render($dropdown));
     }
 }
